@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Signal Simulator</title>
+  <style>
+
+    body {
+      background-color: #0a0f1a;
+      color: #cdd6e8;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      padding: 40px;
+    }
+
+    .container {
+      background-color: #0d1520;
+      border: 1px solid #1a2840;
+      border-radius: 12px;
+      padding: 40px;
+      width: 100%;
+      max-width: 500px;
+    }
+
+    h1 {
+      color: #00d4ff;
+      font-size: 24px;
+      margin-bottom: 8px;
+    }
+
+    p {
+      color: #4a5a72;
+      font-size: 13px;
+      margin-bottom: 24px;
+    }
+
+    .field {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      font-size: 11px;
+      letter-spacing: 2px;
+      color: #4a5a72;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    select, input {
+      width: 100%;
+      background-color: #0a0f1a;
+      color: #cdd6e8;
+      border: 1px solid #1a2840;
+      border-radius: 6px;
+      padding: 10px 12px;
+      font-size: 13px;
+    }
+
+    select:hover, input:hover {
+      border-color: #00d4ff;
+    }
+
+    button {
+      width: 100%;
+      background-color: #00d4ff;
+      color: #000000;
+      border: none;
+      border-radius: 6px;
+      padding: 12px;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      background-color: #00b8dd;
+    }
+
+    .result-box {
+      margin-top: 24px;
+      background-color: #0a0f1a;
+      border: 1px solid #1a2840;
+      border-radius: 8px;
+      padding: 16px;
+      font-size: 13px;
+      color: #00ff99;
+      text-align: center;
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="container">
+
+    <h1>Signal Strength Simulator</h1>
+    <p>Select your network and environment, then click Calculate.</p>
+
+    <div class="field">
+      <label>Network:</label>
+      <select id="network">
+        <option value="2G">2G</option>
+        <option value="3G">3G</option>
+        <option value="4G">4G</option>
+        <option value="5G">5G</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label>Environment:</label>
+      <select id="environment">
+        <option value="open">Open field</option>
+        <option value="suburban">Suburban</option>
+        <option value="urban">Urban</option>
+        <option value="indoor">Indoor</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label>Distance to tower (metres):</label>
+      <input type="number" id="distance" value="1000" />
+    </div>
+
+    <button onclick="calculate()">Calculate Signal</button>
+
+    <div id="result" class="result-box">Result will appear here</div>
+
+  </div>
+
+  <script>
+    async function calculate() {
+
+      const network     = document.getElementById('network').value;
+      const environment = document.getElementById('environment').value;
+      const distance    = document.getElementById('distance').value;
+
+      const response = await fetch('/api/signal', {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify({
+          network:     network,
+          environment: environment,
+          distance_m:  distance,
+          tx_power:    46
+        })
+      });
+
+      const data = await response.json();
+
+      document.getElementById('result').innerHTML =
+        'Signal: ' + data.dbm + ' dBm' +
+        ' | Quality: ' + data.quality +
+        ' | Speed: ' + data.speed;
+    }
+  </script>
+
+</body>
+</html>
