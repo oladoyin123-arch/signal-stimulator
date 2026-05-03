@@ -78,6 +78,17 @@
       background-color: #00b8dd;
     }
 
+    .btn-green {
+      background-color: #00ff99;
+      color: #000000;
+      margin-bottom: 6px;
+      margin-top: 0px;
+    }
+
+    .btn-green:hover {
+      background-color: #00dd88;
+    }
+
     .result-box {
       margin-top: 24px;
       background-color: #0a0f1a;
@@ -87,6 +98,35 @@
       font-size: 13px;
       color: #00ff99;
       text-align: center;
+      line-height: 2;
+    }
+
+    .location-box {
+      background-color: #0a0f1a;
+      border: 1px solid #1a2840;
+      border-radius: 8px;
+      padding: 14px 16px;
+      font-size: 12px;
+      color: #cdd6e8;
+      line-height: 2;
+      margin-top: 8px;
+    }
+
+    .location-box span {
+      color: #00d4ff;
+      font-weight: bold;
+    }
+
+    .status-text {
+      font-size: 12px;
+      margin-top: 8px;
+      color: #4a5a72;
+    }
+
+    .divider {
+      border: none;
+      border-top: 1px solid #1a2840;
+      margin: 24px 0;
     }
 
   </style>
@@ -96,20 +136,44 @@
   <div class="container">
 
     <h1>Signal Strength Simulator</h1>
-    <p>Select your network and environment, then click Calculate.</p>
+    <p>Detect your real network and location, then click Calculate Signal.</p>
 
+    <!-- SECTION 1: NETWORK TYPE -->
     <div class="field">
-      <label>Network:</label>
-      <select id="network">
+      <label>Network Type</label>
+      <button class="btn-green" onclick="detectNetwork()">📶 Detect My Network</button>
+      <select id="network" style="margin-top: 8px;">
         <option value="2G">2G</option>
         <option value="3G">3G</option>
         <option value="4G">4G</option>
         <option value="5G">5G</option>
       </select>
+      <p class="status-text" id="network-status">
+        Click "Detect My Network" or select manually above
+      </p>
     </div>
 
+    <hr class="divider">
+
+    <!-- SECTION 2: GPS LOCATION -->
     <div class="field">
-      <label>Environment:</label>
+      <label>Your Real Location (GPS)</label>
+      <button class="btn-green" onclick="getMyLocation()">📍 Get My Location</button>
+      <div class="location-box">
+        Latitude:  <span id="lat">not detected yet</span><br>
+        Longitude: <span id="lng">not detected yet</span><br>
+        Accuracy:  <span id="accuracy">not detected yet</span>
+      </div>
+      <p class="status-text" id="location-status">
+        Click "Get My Location" to detect your real GPS position
+      </p>
+    </div>
+
+    <hr class="divider">
+
+    <!-- SECTION 3: ENVIRONMENT -->
+    <div class="field">
+      <label>Environment</label>
       <select id="environment">
         <option value="open">Open field</option>
         <option value="suburban">Suburban</option>
@@ -118,42 +182,185 @@
       </select>
     </div>
 
+    <!-- SECTION 4: DISTANCE -->
     <div class="field">
-      <label>Distance to tower (metres):</label>
+      <label>Distance to Tower (metres)</label>
       <input type="number" id="distance" value="1000" />
+      <p class="status-text">
+        Updates automatically when you click Get My Location.
+        You can also enter it manually.
+      </p>
     </div>
 
-    <button onclick="calculate()">Calculate Signal</button>
+    <!-- SECTION 5: CALCULATE -->
+    <button onclick="calculate()">📡 Calculate Signal</button>
 
-    <div id="result" class="result-box">Result will appear here</div>
+    <!-- SECTION 6: RESULT -->
+    <div id="result" class="result-box">
+      Result will appear here
+    </div>
 
   </div>
 
+
   <script>
+
+    // FUNCTION 1: DETECT REAL NETWORK TYPE
+    function detectNetwork() {
+
+      document.getElementById('network-status').textContent = 'Detecting network...';
+      document.getElementById('network-status').style.color = '#ffb800';
+
+      if (!navigator.connection) {
+        document.getElementById('network-status').textContent =
+          'Your browser cannot detect network type. Please select manually above.';
+        document.getElementById('network-status').style.color = '#ffb800';
+        return;
+      }
+
+      const connection    = navigator.connection;
+      const effectiveType = connection.effectiveType;
+      const downlink      = connection.downlink;
+      const rtt           = connection.rtt;
+
+      let networkValue = '4G';
+      if (effectiveType === 'slow-2g')     networkValue = '2G';
+      else if (effectiveType === '2g')     networkValue = '2G';
+      else if (effectiveType === '3g')     networkValue = '3G';
+      else if (effectiveType === '4g')     networkValue = '4G';
+
+      document.getElementById('network').value = networkValue;
+
+      document.getElementById('network-status').innerHTML =
+        '✅ Detected: <strong style="color:#00d4ff">' + effectiveType.toUpperCase() + '</strong>' +
+        ' | Real speed: <strong style="color:#00d4ff">' + downlink + ' Mbps</strong>' +
+        ' | Response time: <strong style="color:#00d4ff">' + rtt + ' ms</strong>';
+      document.getElementById('network-status').style.color = '#00ff99';
+    }
+
+
+    // FUNCTION 2: GET REAL GPS LOCATION
+    function getMyLocation() {
+
+      document.getElementById('location-status').textContent = 'Searching for your location...';
+      document.getElementById('location-status').style.color = '#ffb800';
+
+      if (!navigator.geolocation) {
+        document.getElementById('location-status').textContent =
+          'Your browser does not support location access.';
+        document.getElementById('location-status').style.color = '#ff4060';
+        return;
+      }
+
+      navigator.geolocation.getCurrentPosition(
+
+        function(position) {
+          const lat      = position.coords.latitude;
+          const lng      = position.coords.longitude;
+          const accuracy = Math.round(position.coords.accuracy);
+
+          document.getElementById('lat').textContent      = lat.toFixed(6);
+          document.getElementById('lng').textContent      = lng.toFixed(6);
+          document.getElementById('accuracy').textContent = accuracy + ' metres';
+
+          window.userLat = lat;
+          window.userLng = lng;
+
+          findNearestTower(lat, lng);
+
+          document.getElementById('location-status').textContent =
+            '✅ Location found! Distance is being calculated...';
+          document.getElementById('location-status').style.color = '#00ff99';
+        },
+
+        function(error) {
+          let message = '';
+          if (error.code === 1) {
+            message = '❌ Location blocked. Please allow location access and try again.';
+          } else if (error.code === 2) {
+            message = '❌ Location unavailable. Enter distance manually.';
+          } else {
+            message = '❌ Location request timed out. Try again.';
+          }
+          document.getElementById('location-status').textContent = message;
+          document.getElementById('location-status').style.color = '#ff4060';
+        },
+
+        {
+          enableHighAccuracy: true,
+          timeout: 10000,
+          maximumAge: 0
+        }
+      );
+    }
+
+
+    // FUNCTION 3: FIND NEAREST TOWER
+    async function findNearestTower(lat, lng) {
+      try {
+        const response = await fetch('/api/nearest-tower', {
+          method:  'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body:    JSON.stringify({ lat: lat, lng: lng })
+        });
+
+        const data = await response.json();
+
+        document.getElementById('distance').value = data.distance_m;
+
+        document.getElementById('location-status').textContent =
+          '✅ Location found! Nearest tower is ' + data.distance_m + ' metres away.';
+
+      } catch (error) {
+        document.getElementById('location-status').textContent =
+          '✅ Location found! Enter distance manually or leave default.';
+      }
+    }
+
+
+    // FUNCTION 4: CALCULATE SIGNAL
     async function calculate() {
 
       const network     = document.getElementById('network').value;
       const environment = document.getElementById('environment').value;
       const distance    = document.getElementById('distance').value;
 
-      const response = await fetch('/api/signal', {
-        method:  'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body:    JSON.stringify({
-          network:     network,
-          environment: environment,
-          distance_m:  distance,
-          tx_power:    46
-        })
-      });
+      document.getElementById('result').textContent = 'Calculating...';
+      document.getElementById('result').style.color = '#ffb800';
 
-      const data = await response.json();
+      try {
+        const response = await fetch('/api/signal', {
+          method:  'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body:    JSON.stringify({
+            network:     network,
+            environment: environment,
+            distance_m:  distance,
+            tx_power:    46
+          })
+        });
 
-      document.getElementById('result').innerHTML =
-        'Signal: ' + data.dbm + ' dBm' +
-        ' | Quality: ' + data.quality +
-        ' | Speed: ' + data.speed;
+        const data = await response.json();
+
+        let color = '#00ff99';
+        if (data.quality === 'Good')       color = '#00d4ff';
+        if (data.quality === 'Fair')       color = '#ffb800';
+        if (data.quality === 'Poor')       color = '#ff8040';
+        if (data.quality === 'No service') color = '#ff4060';
+
+        document.getElementById('result').style.color = color;
+        document.getElementById('result').innerHTML =
+          '📶 Signal: <strong>' + data.dbm     + ' dBm</strong><br>' +
+          '⭐ Quality: <strong>' + data.quality + '</strong><br>'     +
+          '🚀 Speed: <strong>'  + data.speed    + '</strong>';
+
+      } catch (error) {
+        document.getElementById('result').textContent =
+          'Error connecting to server. Make sure the app is running.';
+        document.getElementById('result').style.color = '#ff4060';
+      }
     }
+
   </script>
 
 </body>
