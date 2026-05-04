@@ -1,367 +1,698 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Signal Simulator</title>
+  <title>Signal Strength Simulator</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Exo+2:wght@300;400;600;700&display=swap" rel="stylesheet"/>
   <style>
 
+    /* ── VARIABLES ── */
+    :root {
+      --bg:      #090d12;
+      --panel:   #0d1520;
+      --border:  #1a2840;
+      --accent:  #00d4ff;
+      --green:   #00ff99;
+      --warn:    #ffb800;
+      --danger:  #ff4060;
+      --text:    #cdd6e8;
+      --muted:   #4a5a72;
+      --mono:    'Share Tech Mono', monospace;
+      --sans:    'Exo 2', sans-serif;
+    }
+
+    /* ── RESET ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* ── BODY ── */
     body {
-      background-color: #0a0f1a;
-      color: #cdd6e8;
-      font-family: Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      font-weight: 300;
+      min-height: 100vh;
       display: flex;
       justify-content: center;
-      padding: 40px;
+      padding: 32px 16px 60px;
     }
 
+    /* ── ANIMATED GRID BACKGROUND ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0,212,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,212,255,0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── CONTAINER ── */
     .container {
-      background-color: #0d1520;
-      border: 1px solid #1a2840;
-      border-radius: 12px;
-      padding: 40px;
+      position: relative;
+      z-index: 1;
       width: 100%;
-      max-width: 500px;
+      max-width: 480px;
     }
 
-    h1 {
-      color: #00d4ff;
-      font-size: 24px;
+    /* ── HEADER ── */
+    header {
+      text-align: center;
+      margin-bottom: 28px;
+      animation: fadeDown 0.6s ease both;
+    }
+    .logo-line {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 4px;
+      color: var(--accent);
+      text-transform: uppercase;
       margin-bottom: 8px;
     }
-
-    p {
-      color: #4a5a72;
-      font-size: 13px;
-      margin-bottom: 24px;
+    h1 {
+      font-size: 28px;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: -0.5px;
+    }
+    h1 span { color: var(--accent); }
+    .subtitle {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 4px;
+      letter-spacing: 1px;
     }
 
-    .field {
-      margin-bottom: 20px;
+    /* ── SIGNAL TOWER ANIMATION ── */
+    .tower-wrap {
+      display: flex;
+      justify-content: center;
+      margin: 16px 0 24px;
+      animation: fadeDown 0.6s 0.1s ease both;
+    }
+    .tower {
+      display: flex;
+      align-items: flex-end;
+      gap: 5px;
+      height: 40px;
+    }
+    .tower-bar {
+      width: 8px;
+      border-radius: 3px 3px 0 0;
+      background: var(--border);
+      transition: background 0.5s;
+    }
+    .tower-bar.active { animation: pulse-bar 1.5s ease-in-out infinite; }
+    .tower-bar:nth-child(1) { height: 30%;  animation-delay: 0s; }
+    .tower-bar:nth-child(2) { height: 50%;  animation-delay: 0.1s; }
+    .tower-bar:nth-child(3) { height: 70%;  animation-delay: 0.2s; }
+    .tower-bar:nth-child(4) { height: 85%;  animation-delay: 0.3s; }
+    .tower-bar:nth-child(5) { height: 100%; animation-delay: 0.4s; }
+
+    @keyframes pulse-bar {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0.4; }
     }
 
-    label {
+    /* ── CARDS ── */
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 20px;
+      margin-bottom: 14px;
+      animation: fadeUp 0.5s ease both;
+    }
+    .card-title {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 3px;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .card-title::before {
+      content: '';
+      display: inline-block;
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 8px var(--accent);
+    }
+
+    /* ── BUTTONS ── */
+    .btn {
+      width: 100%;
+      border: none;
+      border-radius: 8px;
+      padding: 12px;
+      font-family: var(--sans);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      letter-spacing: 0.5px;
+    }
+    .btn-blue {
+      background: var(--accent);
+      color: #000;
+    }
+    .btn-blue:hover { background: #00b8dd; transform: translateY(-1px); }
+
+    .btn-green {
+      background: var(--green);
+      color: #000;
+      margin-bottom: 10px;
+    }
+    .btn-green:hover { background: #00dd88; transform: translateY(-1px); }
+
+    .btn-calc {
+      background: linear-gradient(135deg, #00d4ff, #0088cc);
+      color: #000;
+      font-size: 16px;
+      padding: 14px;
+      margin-top: 4px;
+      box-shadow: 0 4px 20px rgba(0,212,255,0.3);
+    }
+    .btn-calc:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 24px rgba(0,212,255,0.45);
+    }
+    .btn-calc:active { transform: translateY(0); }
+
+    /* ── FORM ELEMENTS ── */
+    .field { margin-bottom: 14px; }
+    .field:last-child { margin-bottom: 0; }
+
+    .field-label {
       display: block;
-      font-size: 11px;
+      font-family: var(--mono);
+      font-size: 10px;
       letter-spacing: 2px;
-      color: #4a5a72;
+      color: var(--muted);
       text-transform: uppercase;
       margin-bottom: 6px;
     }
 
-    select, input {
+    select, input[type="number"] {
       width: 100%;
-      background-color: #0a0f1a;
-      color: #cdd6e8;
-      border: 1px solid #1a2840;
-      border-radius: 6px;
-      padding: 10px 12px;
+      background: var(--bg);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-family: var(--mono);
       font-size: 13px;
+      outline: none;
+      appearance: none;
+      transition: border-color 0.2s;
     }
-
-    select:hover, input:hover {
-      border-color: #00d4ff;
-    }
-
-    button {
-      width: 100%;
-      background-color: #00d4ff;
-      color: #000000;
-      border: none;
-      border-radius: 6px;
-      padding: 12px;
-      font-size: 14px;
-      font-weight: bold;
+    select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2300d4ff' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
       cursor: pointer;
+    }
+    select:hover, select:focus,
+    input[type="number"]:hover, input[type="number"]:focus {
+      border-color: var(--accent);
+    }
+
+    /* ── LOCATION BOX ── */
+    .location-box {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px 14px;
+      font-family: var(--mono);
+      font-size: 11px;
+      line-height: 2;
       margin-top: 10px;
     }
+    .location-box .loc-label { color: var(--muted); }
+    .location-box .loc-val   { color: var(--accent); font-weight: 500; }
 
-    button:hover {
-      background-color: #00b8dd;
+    /* ── STATUS TEXT ── */
+    .status {
+      font-size: 11px;
+      margin-top: 8px;
+      color: var(--muted);
+      font-family: var(--mono);
+      min-height: 18px;
+      transition: color 0.3s;
     }
 
-    .btn-green {
-      background-color: #00ff99;
-      color: #000000;
-      margin-bottom: 6px;
-      margin-top: 0px;
+    /* ── SIGNAL BARS ── */
+    .bars-wrap {
+      display: flex;
+      align-items: flex-end;
+      gap: 6px;
+      height: 48px;
+      margin: 12px 0 8px;
+    }
+    .bar-seg {
+      flex: 1;
+      border-radius: 3px 3px 0 0;
+      background: var(--border);
+      transition: background 0.5s, height 0.4s;
+      min-height: 8px;
     }
 
-    .btn-green:hover {
-      background-color: #00dd88;
-    }
-
-    .result-box {
-      margin-top: 24px;
-      background-color: #0a0f1a;
-      border: 1px solid #1a2840;
-      border-radius: 8px;
-      padding: 16px;
-      font-size: 13px;
-      color: #00ff99;
+    /* ── RESULT CARD ── */
+    .result-card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 24px 20px;
+      margin-bottom: 14px;
       text-align: center;
-      line-height: 2;
+      animation: fadeUp 0.5s 0.3s ease both;
+      transition: border-color 0.4s;
     }
-
-    .location-box {
-      background-color: #0a0f1a;
-      border: 1px solid #1a2840;
-      border-radius: 8px;
-      padding: 14px 16px;
+    .result-dbm {
+      font-family: var(--mono);
+      font-size: 48px;
+      font-weight: 500;
+      color: var(--accent);
+      transition: color 0.4s;
+      line-height: 1;
+    }
+    .result-unit {
+      font-family: var(--mono);
+      font-size: 14px;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+    .result-quality {
+      display: inline-block;
+      margin-top: 12px;
+      padding: 4px 16px;
+      border-radius: 20px;
+      font-family: var(--mono);
       font-size: 12px;
-      color: #cdd6e8;
-      line-height: 2;
-      margin-top: 8px;
+      letter-spacing: 2px;
+      border: 1px solid currentColor;
+      transition: color 0.4s, border-color 0.4s;
+      color: var(--muted);
+    }
+    .result-speed {
+      margin-top: 16px;
+      font-size: 13px;
+      color: var(--muted);
+      font-family: var(--mono);
+    }
+    .result-speed span {
+      color: var(--text);
+      font-size: 18px;
     }
 
-    .location-box span {
-      color: #00d4ff;
-      font-weight: bold;
+    /* ── METRICS ROW ── */
+    .metrics {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 14px;
+      animation: fadeUp 0.5s 0.25s ease both;
+    }
+    .metric {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px;
+      text-align: center;
+    }
+    .metric-label {
+      font-family: var(--mono);
+      font-size: 9px;
+      letter-spacing: 2px;
+      color: var(--muted);
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .metric-value {
+      font-family: var(--mono);
+      font-size: 18px;
+      color: var(--accent);
+      transition: color 0.4s;
     }
 
-    .status-text {
-      font-size: 12px;
-      margin-top: 8px;
-      color: #4a5a72;
-    }
-
+    /* ── DIVIDER ── */
     .divider {
       border: none;
-      border-top: 1px solid #1a2840;
-      margin: 24px 0;
+      border-top: 1px solid var(--border);
+      margin: 18px 0;
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    .spinning {
+      display: inline-block;
+      animation: spin 1s linear infinite;
     }
 
   </style>
 </head>
 <body>
+<div class="container">
 
-  <div class="container">
+  <!-- HEADER -->
+  <header>
+    <div class="logo-line">// cellular network analysis tool</div>
+    <h1>Signal <span>Strength</span> Simulator</h1>
+    <p class="subtitle">Real network &bull; Real GPS &bull; Real calculations</p>
+  </header>
 
-    <h1>Signal Strength Simulator</h1>
-    <p>Detect your real network and location, then click Calculate Signal.</p>
+  <!-- ANIMATED SIGNAL TOWER -->
+  <div class="tower-wrap">
+    <div class="tower" id="tower">
+      <div class="tower-bar"></div>
+      <div class="tower-bar"></div>
+      <div class="tower-bar"></div>
+      <div class="tower-bar"></div>
+      <div class="tower-bar"></div>
+    </div>
+  </div>
 
-    <!-- SECTION 1: NETWORK TYPE -->
+  <!-- RESULT CARD -->
+  <div class="result-card" id="resultCard">
+    <div class="result-dbm" id="resultDbm">—</div>
+    <div class="result-unit">dBm received signal</div>
+    <div class="result-quality" id="resultQuality">awaiting measurement</div>
+    <div class="result-speed" id="resultSpeed" style="margin-top:16px; color:var(--muted)">
+      click calculate to measure
+    </div>
+  </div>
+
+  <!-- SIGNAL BARS -->
+  <div class="card" style="animation-delay:0.1s">
+    <div class="card-title">Signal quality</div>
+    <div class="bars-wrap" id="barsWrap"></div>
+    <div id="barsLabel" style="font-family:var(--mono); font-size:10px; color:var(--muted); text-align:center;">
+      no signal measured yet
+    </div>
+  </div>
+
+  <!-- METRICS -->
+  <div class="metrics">
+    <div class="metric">
+      <div class="metric-label">Distance</div>
+      <div class="metric-value" id="mDist">—</div>
+    </div>
+    <div class="metric">
+      <div class="metric-label">Est. Speed</div>
+      <div class="metric-value" id="mSpeed">—</div>
+    </div>
+  </div>
+
+  <!-- NETWORK DETECTION -->
+  <div class="card" style="animation-delay:0.15s">
+    <div class="card-title">Network type</div>
+    <button class="btn btn-green" onclick="detectNetwork()">📶 Detect My Network</button>
     <div class="field">
-      <label>Network Type</label>
-      <button class="btn-green" onclick="detectNetwork()">📶 Detect My Network</button>
-      <select id="network" style="margin-top: 8px;">
-        <option value="2G">2G</option>
-        <option value="3G">3G</option>
-        <option value="4G">4G</option>
-        <option value="5G">5G</option>
+      <label class="field-label">Or select manually</label>
+      <select id="network">
+        <option value="2G">2G — GSM</option>
+        <option value="3G">3G — UMTS</option>
+        <option value="4G" selected>4G — LTE</option>
+        <option value="5G">5G — NR</option>
       </select>
-      <p class="status-text" id="network-status">
-        Click "Detect My Network" or select manually above
-      </p>
     </div>
-
-    <hr class="divider">
-
-    <!-- SECTION 2: GPS LOCATION -->
-    <div class="field">
-      <label>Your Real Location (GPS)</label>
-      <button class="btn-green" onclick="getMyLocation()">📍 Get My Location</button>
-      <div class="location-box">
-        Latitude:  <span id="lat">not detected yet</span><br>
-        Longitude: <span id="lng">not detected yet</span><br>
-        Accuracy:  <span id="accuracy">not detected yet</span>
-      </div>
-      <p class="status-text" id="location-status">
-        Click "Get My Location" to detect your real GPS position
-      </p>
+    <div class="status" id="networkStatus">
+      click detect to read your real network
     </div>
+  </div>
 
-    <hr class="divider">
+  <!-- GPS LOCATION -->
+  <div class="card" style="animation-delay:0.2s">
+    <div class="card-title">GPS location</div>
+    <button class="btn btn-green" onclick="getMyLocation()">📍 Get My Location</button>
+    <div class="location-box">
+      <span class="loc-label">Latitude: </span>
+      <span class="loc-val" id="lat">not detected yet</span><br>
+      <span class="loc-label">Longitude: </span>
+      <span class="loc-val" id="lng">not detected yet</span><br>
+      <span class="loc-label">Accuracy: </span>
+      <span class="loc-val" id="accuracy">not detected yet</span>
+    </div>
+    <div class="status" id="locationStatus">
+      click get my location to detect your real GPS
+    </div>
+  </div>
 
-    <!-- SECTION 3: ENVIRONMENT -->
+  <!-- ENVIRONMENT & DISTANCE -->
+  <div class="card" style="animation-delay:0.25s">
+    <div class="card-title">Parameters</div>
     <div class="field">
-      <label>Environment</label>
+      <label class="field-label">Environment</label>
       <select id="environment">
         <option value="open">Open field</option>
-        <option value="suburban">Suburban</option>
-        <option value="urban">Urban</option>
+        <option value="suburban" selected>Suburban</option>
+        <option value="urban">Dense urban</option>
         <option value="indoor">Indoor</option>
       </select>
     </div>
-
-    <!-- SECTION 4: DISTANCE -->
     <div class="field">
-      <label>Distance to Tower (metres)</label>
-      <input type="number" id="distance" value="1000" />
-      <p class="status-text">
-        Updates automatically when you click Get My Location.
-        You can also enter it manually.
-      </p>
+      <label class="field-label">Distance to tower (metres)</label>
+      <input type="number" id="distance" value="1000"/>
+      <div class="status" style="margin-top:6px">
+        auto-updates from GPS · or enter manually
+      </div>
     </div>
-
-    <!-- SECTION 5: CALCULATE -->
-    <button onclick="calculate()">📡 Calculate Signal</button>
-
-    <!-- SECTION 6: RESULT -->
-    <div id="result" class="result-box">
-      Result will appear here
-    </div>
-
   </div>
 
+  <!-- CALCULATE BUTTON -->
+  <button class="btn btn-calc" onclick="calculate()">
+    📡 Calculate Signal
+  </button>
 
-  <script>
+</div>
 
-    // FUNCTION 1: DETECT REAL NETWORK TYPE
-    function detectNetwork() {
 
-      document.getElementById('network-status').textContent = 'Detecting network...';
-      document.getElementById('network-status').style.color = '#ffb800';
+<script>
 
-      if (!navigator.connection) {
-        document.getElementById('network-status').textContent =
-          'Your browser cannot detect network type. Please select manually above.';
-        document.getElementById('network-status').style.color = '#ffb800';
-        return;
+  // ── BUILD SIGNAL BARS ────────────────────────────────
+  (function buildBars() {
+    const wrap = document.getElementById('barsWrap');
+    for (let i = 0; i < 10; i++) {
+      const bar = document.createElement('div');
+      bar.className = 'bar-seg';
+      bar.style.height = (16 + (i / 9) * 32) + 'px';
+      wrap.appendChild(bar);
+    }
+  })();
+
+  // ── COLOR HELPERS ────────────────────────────────────
+  function signalColor(dbm) {
+    if (dbm > -70)  return '#00ff99';
+    if (dbm > -80)  return '#00d4ff';
+    if (dbm > -90)  return '#ffb800';
+    if (dbm > -100) return '#ff8040';
+    return '#ff4060';
+  }
+
+  function signalLabel(dbm) {
+    if (dbm > -70)  return 'Excellent';
+    if (dbm > -80)  return 'Good';
+    if (dbm > -90)  return 'Fair';
+    if (dbm > -100) return 'Poor';
+    return 'No service';
+  }
+
+  // ── UPDATE UI AFTER RESULT ───────────────────────────
+  function updateUI(dbm, quality, speed, distM) {
+    const col = signalColor(dbm);
+
+    // Big dBm number
+    document.getElementById('resultDbm').textContent = dbm;
+    document.getElementById('resultDbm').style.color = col;
+
+    // Quality badge
+    const q = document.getElementById('resultQuality');
+    q.textContent        = quality;
+    q.style.color        = col;
+    q.style.borderColor  = col;
+
+    // Speed
+    document.getElementById('resultSpeed').innerHTML =
+      'estimated speed: <span style="color:' + col + '">' + speed + '</span>';
+
+    // Result card border
+    document.getElementById('resultCard').style.borderColor = col;
+
+    // Metrics
+    if (distM !== null) {
+      const km = distM >= 1000 ? (distM/1000).toFixed(2)+' km' : distM+' m';
+      document.getElementById('mDist').textContent  = km;
+      document.getElementById('mDist').style.color  = col;
+    }
+    document.getElementById('mSpeed').textContent = speed;
+    document.getElementById('mSpeed').style.color  = col;
+
+    // Signal bars
+    const pct    = Math.max(0, Math.min(1, (dbm + 110) / 60));
+    const filled = Math.round(pct * 10);
+    const bars   = document.querySelectorAll('.bar-seg');
+    bars.forEach(function(bar, i) {
+      bar.style.background = i < filled ? col : 'var(--border)';
+    });
+    document.getElementById('barsLabel').textContent = quality + ' — ' + dbm + ' dBm';
+    document.getElementById('barsLabel').style.color = col;
+
+    // Tower animation bars
+    const towerBars = document.querySelectorAll('.tower-bar');
+    towerBars.forEach(function(bar, i) {
+      bar.style.background = i < Math.round(pct * 5) ? col : 'var(--border)';
+      if (i < Math.round(pct * 5)) {
+        bar.classList.add('active');
+      } else {
+        bar.classList.remove('active');
       }
+    });
+  }
 
-      const connection    = navigator.connection;
-      const effectiveType = connection.effectiveType;
-      const downlink      = connection.downlink;
-      const rtt           = connection.rtt;
+  // ── DETECT NETWORK ───────────────────────────────────
+  function detectNetwork() {
+    const status = document.getElementById('networkStatus');
+    status.textContent = '⏳ detecting...';
+    status.style.color = 'var(--warn)';
 
-      let networkValue = '4G';
-      if (effectiveType === 'slow-2g')     networkValue = '2G';
-      else if (effectiveType === '2g')     networkValue = '2G';
-      else if (effectiveType === '3g')     networkValue = '3G';
-      else if (effectiveType === '4g')     networkValue = '4G';
-
-      document.getElementById('network').value = networkValue;
-
-      document.getElementById('network-status').innerHTML =
-        '✅ Detected: <strong style="color:#00d4ff">' + effectiveType.toUpperCase() + '</strong>' +
-        ' | Real speed: <strong style="color:#00d4ff">' + downlink + ' Mbps</strong>' +
-        ' | Response time: <strong style="color:#00d4ff">' + rtt + ' ms</strong>';
-      document.getElementById('network-status').style.color = '#00ff99';
+    if (!navigator.connection) {
+      status.textContent = 'browser cannot detect network — please select manually';
+      status.style.color = 'var(--warn)';
+      return;
     }
 
+    const c    = navigator.connection;
+    const type = c.effectiveType;
+    const dl   = c.downlink;
+    const rtt  = c.rtt;
 
-    // FUNCTION 2: GET REAL GPS LOCATION
-    function getMyLocation() {
+    let val = '4G';
+    if (type === 'slow-2g' || type === '2g') val = '2G';
+    else if (type === '3g') val = '3G';
+    else if (type === '4g') val = '4G';
 
-      document.getElementById('location-status').textContent = 'Searching for your location...';
-      document.getElementById('location-status').style.color = '#ffb800';
+    document.getElementById('network').value = val;
 
-      if (!navigator.geolocation) {
-        document.getElementById('location-status').textContent =
-          'Your browser does not support location access.';
-        document.getElementById('location-status').style.color = '#ff4060';
-        return;
-      }
+    status.innerHTML =
+      '✅ <strong>' + type.toUpperCase() + '</strong>' +
+      ' · ' + dl + ' Mbps' +
+      ' · ' + rtt + ' ms response';
+    status.style.color = 'var(--green)';
+  }
 
-      navigator.geolocation.getCurrentPosition(
+  // ── GET GPS LOCATION ─────────────────────────────────
+  function getMyLocation() {
+    const status = document.getElementById('locationStatus');
+    status.textContent = '⏳ searching for your location...';
+    status.style.color = 'var(--warn)';
 
-        function(position) {
-          const lat      = position.coords.latitude;
-          const lng      = position.coords.longitude;
-          const accuracy = Math.round(position.coords.accuracy);
-
-          document.getElementById('lat').textContent      = lat.toFixed(6);
-          document.getElementById('lng').textContent      = lng.toFixed(6);
-          document.getElementById('accuracy').textContent = accuracy + ' metres';
-
-          window.userLat = lat;
-          window.userLng = lng;
-
-          findNearestTower(lat, lng);
-
-          document.getElementById('location-status').textContent =
-            '✅ Location found! Distance is being calculated...';
-          document.getElementById('location-status').style.color = '#00ff99';
-        },
-
-        function(error) {
-          let message = '';
-          if (error.code === 1) {
-            message = '❌ Location blocked. Please allow location access and try again.';
-          } else if (error.code === 2) {
-            message = '❌ Location unavailable. Enter distance manually.';
-          } else {
-            message = '❌ Location request timed out. Try again.';
-          }
-          document.getElementById('location-status').textContent = message;
-          document.getElementById('location-status').style.color = '#ff4060';
-        },
-
-        {
-          enableHighAccuracy: true,
-          timeout: 10000,
-          maximumAge: 0
-        }
-      );
+    if (!navigator.geolocation) {
+      status.textContent = 'browser does not support location';
+      status.style.color = 'var(--danger)';
+      return;
     }
 
+    navigator.geolocation.getCurrentPosition(
+      function(pos) {
+        const lat = pos.coords.latitude;
+        const lng = pos.coords.longitude;
+        const acc = Math.round(pos.coords.accuracy);
 
-    // FUNCTION 3: FIND NEAREST TOWER
-    async function findNearestTower(lat, lng) {
-      try {
-        const response = await fetch('/api/nearest-tower', {
-          method:  'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body:    JSON.stringify({ lat: lat, lng: lng })
-        });
+        document.getElementById('lat').textContent      = lat.toFixed(6);
+        document.getElementById('lng').textContent      = lng.toFixed(6);
+        document.getElementById('accuracy').textContent = acc + ' metres';
 
-        const data = await response.json();
+        window.userLat = lat;
+        window.userLng = lng;
 
-        document.getElementById('distance').value = data.distance_m;
+        findNearestTower(lat, lng);
 
-        document.getElementById('location-status').textContent =
-          '✅ Location found! Nearest tower is ' + data.distance_m + ' metres away.';
+        status.textContent = '✅ location found · calculating distance...';
+        status.style.color = 'var(--green)';
+      },
+      function(err) {
+        const msgs = {
+          1: '❌ location blocked · please allow access and try again',
+          2: '❌ location unavailable · enter distance manually',
+          3: '❌ timed out · try again or enter distance manually'
+        };
+        status.textContent = msgs[err.code] || '❌ unknown error';
+        status.style.color = 'var(--danger)';
+      },
+      { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+    );
+  }
 
-      } catch (error) {
-        document.getElementById('location-status').textContent =
-          '✅ Location found! Enter distance manually or leave default.';
-      }
+  // ── FIND NEAREST TOWER ───────────────────────────────
+  async function findNearestTower(lat, lng) {
+    const status = document.getElementById('locationStatus');
+    try {
+      const res  = await fetch('/api/nearest-tower', {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify({ lat: lat, lng: lng })
+      });
+      const data = await res.json();
+      document.getElementById('distance').value = data.distance_m;
+      const km = data.distance_m >= 1000
+        ? (data.distance_m/1000).toFixed(2) + ' km'
+        : data.distance_m + ' m';
+      status.textContent = '✅ nearest tower is ' + km + ' away';
+      status.style.color = 'var(--green)';
+    } catch(e) {
+      status.textContent = '✅ location found · enter distance manually';
+    }
+  }
+
+  // ── CALCULATE SIGNAL ─────────────────────────────────
+  async function calculate() {
+    const btn = document.querySelector('.btn-calc');
+    btn.innerHTML = '<span class="spinning">⏳</span> calculating...';
+    btn.disabled  = true;
+
+    const network     = document.getElementById('network').value;
+    const environment = document.getElementById('environment').value;
+    const distance    = document.getElementById('distance').value;
+
+    try {
+      const res  = await fetch('/api/signal', {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify({
+          network:     network,
+          environment: environment,
+          distance_m:  distance,
+          tx_power:    46
+        })
+      });
+      const data = await res.json();
+      updateUI(data.dbm, data.quality, data.speed, parseInt(distance));
+
+    } catch(e) {
+      document.getElementById('resultQuality').textContent = 'server error';
+      document.getElementById('resultQuality').style.color = 'var(--danger)';
     }
 
+    btn.innerHTML = '📡 Calculate Signal';
+    btn.disabled  = false;
+  }
 
-    // FUNCTION 4: CALCULATE SIGNAL
-    async function calculate() {
-
-      const network     = document.getElementById('network').value;
-      const environment = document.getElementById('environment').value;
-      const distance    = document.getElementById('distance').value;
-
-      document.getElementById('result').textContent = 'Calculating...';
-      document.getElementById('result').style.color = '#ffb800';
-
-      try {
-        const response = await fetch('/api/signal', {
-          method:  'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body:    JSON.stringify({
-            network:     network,
-            environment: environment,
-            distance_m:  distance,
-            tx_power:    46
-          })
-        });
-
-        const data = await response.json();
-
-        let color = '#00ff99';
-        if (data.quality === 'Good')       color = '#00d4ff';
-        if (data.quality === 'Fair')       color = '#ffb800';
-        if (data.quality === 'Poor')       color = '#ff8040';
-        if (data.quality === 'No service') color = '#ff4060';
-
-        document.getElementById('result').style.color = color;
-        document.getElementById('result').innerHTML =
-          '📶 Signal: <strong>' + data.dbm     + ' dBm</strong><br>' +
-          '⭐ Quality: <strong>' + data.quality + '</strong><br>'     +
-          '🚀 Speed: <strong>'  + data.speed    + '</strong>';
-
-      } catch (error) {
-        document.getElementById('result').textContent =
-          'Error connecting to server. Make sure the app is running.';
-        document.getElementById('result').style.color = '#ff4060';
-      }
-    }
-
-  </script>
-
+</script>
 </body>
 </html>
