@@ -16,7 +16,6 @@
       --blue2:   #2563eb;
       --sky:     #38bdf8;
       --white:   #ffffff;
-      --light:   #f0f5ff;
       --muted:   #7a94b8;
       --border:  rgba(255,255,255,0.1);
       --green:   #22c55e;
@@ -35,7 +34,6 @@
       min-height: 100vh;
     }
 
-    /* ── TOPBAR ── */
     .topbar {
       background: var(--navy2);
       border-bottom: 1px solid var(--border);
@@ -45,132 +43,47 @@
       align-items: center;
       justify-content: space-between;
     }
-    .topbar-brand {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
+    .topbar-brand { display: flex; align-items: center; gap: 10px; }
     .brand-icon {
-      width: 32px;
-      height: 32px;
+      width: 32px; height: 32px;
       background: var(--blue2);
       border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      display: flex; align-items: center; justify-content: center;
       font-size: 16px;
     }
-    .brand-name {
-      font-size: 15px;
-      font-weight: 600;
-      letter-spacing: -0.2px;
-    }
+    .brand-name { font-size: 15px; font-weight: 600; letter-spacing: -0.2px; }
     .brand-name span { color: var(--sky); }
     .topbar-right {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-family: var(--mono);
-      font-size: 11px;
-      color: var(--green);
+      display: flex; align-items: center; gap: 8px;
+      font-family: var(--mono); font-size: 11px; color: var(--green);
     }
     .live-dot {
-      width: 7px;
-      height: 7px;
+      width: 7px; height: 7px;
       background: var(--green);
       border-radius: 50%;
       animation: pulse 2s infinite;
     }
 
-    /* ── PAGE ── */
     .page {
       max-width: 1200px;
       margin: 0 auto;
       padding: 24px 24px 60px;
     }
 
-    /* ── PAGE TITLE ── */
-    .page-title {
-      margin-bottom: 20px;
-    }
-    .page-title h1 {
-      font-size: 22px;
-      font-weight: 600;
-      color: var(--white);
-      letter-spacing: -0.3px;
-    }
-    .page-title p {
-      font-size: 13px;
-      color: var(--muted);
-      margin-top: 4px;
-    }
+    .page-title { margin-bottom: 20px; }
+    .page-title h1 { font-size: 22px; font-weight: 600; letter-spacing: -0.3px; }
+    .page-title p { font-size: 13px; color: var(--muted); margin-top: 4px; }
 
-    /* ── STAT ROW ── */
-    .stat-row {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 12px;
-      margin-bottom: 20px;
-    }
-    @media (max-width: 700px) {
-      .stat-row { grid-template-columns: 1fr 1fr; }
-    }
-    .stat-card {
-      background: var(--navy2);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 16px 18px;
-    }
-    .stat-label {
-      font-size: 11px;
-      color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-      font-family: var(--mono);
-      margin-bottom: 8px;
-    }
-    .stat-value {
-      font-family: var(--mono);
-      font-size: 26px;
-      font-weight: 500;
-      color: var(--sky);
-      transition: color 0.4s;
-      line-height: 1;
-    }
-    .stat-sub {
-      font-size: 11px;
-      color: var(--muted);
-      margin-top: 5px;
-      font-family: var(--mono);
-    }
-
-    /* ── SIGNAL BAR ── */
-    .sig-bars {
-      display: flex;
-      align-items: flex-end;
-      gap: 3px;
-      height: 28px;
-      margin-top: 10px;
-    }
-    .sig-bar {
-      flex: 1;
-      border-radius: 2px 2px 0 0;
-      background: rgba(255,255,255,0.1);
-      transition: background 0.5s;
-      min-height: 5px;
-    }
-
-    /* ── MAIN GRID ── */
     .main-grid {
       display: grid;
       grid-template-columns: 340px 1fr;
       gap: 16px;
+      margin-bottom: 16px;
     }
     @media (max-width: 800px) {
       .main-grid { grid-template-columns: 1fr; }
     }
 
-    /* ── PANEL ── */
     .panel {
       background: var(--navy2);
       border: 1px solid var(--border);
@@ -180,19 +93,14 @@
     .panel-header {
       padding: 14px 18px;
       border-bottom: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      gap: 10px;
+      display: flex; align-items: center; gap: 10px;
     }
     .panel-icon {
-      width: 28px;
-      height: 28px;
+      width: 28px; height: 28px;
       border-radius: 7px;
       background: rgba(56,189,248,0.12);
       border: 1px solid rgba(56,189,248,0.2);
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      display: flex; align-items: center; justify-content: center;
       font-size: 13px;
     }
     .panel-title {
@@ -204,42 +112,29 @@
     }
     .panel-body { padding: 16px 18px; }
 
-    /* ── MAP ── */
-    #map {
-      height: 100%;
-      min-height: 380px;
-      width: 100%;
-    }
+    #map { height: 100%; min-height: 420px; width: 100%; }
     .map-panel .panel-body { padding: 0; }
     .map-footer {
       padding: 10px 18px;
       border-top: 1px solid var(--border);
-      display: flex;
-      gap: 20px;
-      font-family: var(--mono);
-      font-size: 10px;
-      color: var(--muted);
+      display: flex; gap: 20px;
+      font-family: var(--mono); font-size: 10px; color: var(--muted);
     }
     .map-dot {
       display: inline-block;
-      width: 8px;
-      height: 8px;
+      width: 8px; height: 8px;
       border-radius: 50%;
       margin-right: 5px;
       vertical-align: middle;
     }
 
-    /* ── FORM CONTROLS ── */
     .ctrl-group { margin-bottom: 14px; }
     .ctrl-group:last-child { margin-bottom: 0; }
     .ctrl-label {
       display: block;
-      font-size: 10px;
-      font-family: var(--mono);
-      color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-      margin-bottom: 6px;
+      font-size: 10px; font-family: var(--mono);
+      color: var(--muted); text-transform: uppercase;
+      letter-spacing: 1.5px; margin-bottom: 6px;
     }
     select {
       width: 100%;
@@ -248,11 +143,8 @@
       border: 1px solid var(--border);
       border-radius: 8px;
       padding: 9px 12px;
-      font-family: var(--mono);
-      font-size: 12px;
-      outline: none;
-      cursor: pointer;
-      appearance: none;
+      font-family: var(--mono); font-size: 12px;
+      outline: none; cursor: pointer; appearance: none;
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%2338bdf8' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
       background-repeat: no-repeat;
       background-position: right 12px center;
@@ -260,130 +152,107 @@
     }
     select:hover, select:focus { border-color: var(--sky); }
 
-    /* ── BUTTONS ── */
     .btn {
       width: 100%;
-      border: none;
-      border-radius: 8px;
+      border: none; border-radius: 8px;
       padding: 10px 14px;
-      font-family: var(--sans);
-      font-size: 13px;
-      font-weight: 500;
-      cursor: pointer;
-      transition: all 0.18s;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 7px;
-      margin-bottom: 8px;
+      font-family: var(--sans); font-size: 13px; font-weight: 500;
+      cursor: pointer; transition: all 0.18s;
+      display: flex; align-items: center; justify-content: center;
+      gap: 7px; margin-bottom: 8px;
     }
     .btn:last-child { margin-bottom: 0; }
     .btn-outline {
-      background: transparent;
-      color: var(--sky);
+      background: transparent; color: var(--sky);
       border: 1px solid rgba(56,189,248,0.3);
     }
-    .btn-outline:hover {
-      background: rgba(56,189,248,0.08);
-      border-color: var(--sky);
-    }
+    .btn-outline:hover { background: rgba(56,189,248,0.08); border-color: var(--sky); }
     .btn-primary {
-      background: var(--blue2);
-      color: white;
-      font-size: 14px;
-      padding: 12px;
-      border-radius: 10px;
+      background: var(--blue2); color: white;
+      font-size: 14px; padding: 13px;
+      border-radius: 10px; margin-top: 4px;
     }
-    .btn-primary:hover {
-      background: #1d4ed8;
-      transform: translateY(-1px);
-    }
+    .btn-primary:hover { background: #1d4ed8; transform: translateY(-1px); }
     .btn-primary:active { transform: translateY(0); }
 
-    /* ── LOCATION BOX ── */
     .loc-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
-      margin-bottom: 10px;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 8px; margin-bottom: 10px;
     }
     .loc-item {
       background: var(--navy3);
       border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 10px 12px;
+      border-radius: 8px; padding: 10px 12px;
     }
     .loc-item-label {
+      font-family: var(--mono); font-size: 9px;
+      color: var(--muted); text-transform: uppercase;
+      letter-spacing: 1.5px; margin-bottom: 4px;
+    }
+    .loc-item-val { font-family: var(--mono); font-size: 12px; color: var(--sky); }
+
+    .conf-row {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 5px;
+    }
+    .conf-label { font-family: var(--mono); font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
+    .conf-val { font-family: var(--mono); font-size: 12px; color: var(--green); font-weight: 500; }
+    .conf-track { height: 6px; background: rgba(255,255,255,0.08); border-radius: 4px; overflow: hidden; margin-bottom: 12px; }
+    .conf-fill { height: 100%; border-radius: 4px; background: var(--green); width: 0%; transition: width 0.6s ease, background 0.4s; }
+
+    .divider { border: none; border-top: 1px solid var(--border); margin: 14px 0; }
+
+    .status {
+      font-family: var(--mono); font-size: 10px;
+      color: var(--muted); margin-top: 6px;
+      line-height: 1.6; min-height: 16px; transition: color 0.3s;
+    }
+
+    /* ── RESULT SECTION AT BOTTOM ── */
+    .result-section {
+      margin-top: 16px;
+    }
+    .result-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+    @media (max-width: 700px) {
+      .result-grid { grid-template-columns: 1fr 1fr; }
+    }
+    .result-card {
+      background: var(--navy2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px;
+      text-align: center;
+      transition: border-color 0.4s;
+    }
+    .result-card-label {
+      font-size: 10px;
       font-family: var(--mono);
-      font-size: 9px;
       color: var(--muted);
       text-transform: uppercase;
       letter-spacing: 1.5px;
-      margin-bottom: 4px;
+      margin-bottom: 10px;
     }
-    .loc-item-val {
+    .result-card-value {
       font-family: var(--mono);
-      font-size: 12px;
-      color: var(--sky);
-    }
-
-    /* ── CONFIDENCE ── */
-    .conf-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 5px;
-    }
-    .conf-label {
-      font-family: var(--mono);
-      font-size: 10px;
-      color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-    .conf-val {
-      font-family: var(--mono);
-      font-size: 12px;
-      color: var(--green);
+      font-size: 32px;
       font-weight: 500;
+      color: var(--sky);
+      transition: color 0.4s;
+      line-height: 1;
     }
-    .conf-track {
-      height: 6px;
-      background: rgba(255,255,255,0.08);
-      border-radius: 4px;
-      overflow: hidden;
-      margin-bottom: 12px;
-    }
-    .conf-fill {
-      height: 100%;
-      border-radius: 4px;
-      background: var(--green);
-      width: 0%;
-      transition: width 0.6s ease, background 0.4s;
-    }
-
-    /* ── DIVIDER ── */
-    .divider {
-      border: none;
-      border-top: 1px solid var(--border);
-      margin: 14px 0;
-    }
-
-    /* ── STATUS ── */
-    .status {
-      font-family: var(--mono);
-      font-size: 10px;
+    .result-card-sub {
+      font-size: 11px;
       color: var(--muted);
+      font-family: var(--mono);
       margin-top: 6px;
-      line-height: 1.6;
-      min-height: 16px;
-      transition: color 0.3s;
     }
-
-    /* ── QUALITY BADGE ── */
     .quality-badge {
       display: inline-block;
-      padding: 3px 12px;
+      padding: 3px 14px;
       border-radius: 20px;
       font-family: var(--mono);
       font-size: 11px;
@@ -391,15 +260,24 @@
       border: 1px solid currentColor;
       color: var(--muted);
       transition: all 0.4s;
-      margin-top: 4px;
+      margin-top: 8px;
     }
 
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50%       { opacity: 0.3; }
+    /* signal bars inside result */
+    .sig-bars {
+      display: flex; align-items: flex-end;
+      gap: 3px; height: 28px;
+      justify-content: center; margin-top: 10px;
     }
-    @keyframes spin { to { transform: rotate(360deg); } }
-    .spinning { display: inline-block; animation: spin 0.8s linear infinite; }
+    .sig-bar {
+      flex: 1; border-radius: 2px 2px 0 0;
+      background: rgba(255,255,255,0.1);
+      transition: background 0.5s; min-height: 5px;
+    }
+
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+    @keyframes spin { to{transform:rotate(360deg)} }
+    .spinning { display:inline-block; animation:spin 0.8s linear infinite; }
   </style>
 </head>
 <body>
@@ -421,41 +299,16 @@
     <!-- PAGE TITLE -->
     <div class="page-title">
       <h1>Cellular Network Signal Strength Simulator</h1>
-      <p>Detect your real network type and GPS location to calculate accurate signal strength</p>
+      <p>Detect your real network and GPS location, then calculate accurate signal strength</p>
     </div>
 
-    <!-- STAT ROW -->
-    <div class="stat-row">
-      <div class="stat-card">
-        <div class="stat-label">Signal Strength</div>
-        <div class="stat-value" id="sDbm">—</div>
-        <div class="stat-sub">dBm</div>
-        <div class="sig-bars" id="sigBars"></div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-label">Quality</div>
-        <div class="stat-value" id="sQuality" style="font-size:18px; padding-top:4px">—</div>
-        <div class="quality-badge" id="sQBadge">awaiting</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-label">Distance to Tower</div>
-        <div class="stat-value" id="sDist">—</div>
-        <div class="stat-sub">to nearest tower</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-label">Est. Download Speed</div>
-        <div class="stat-value" id="sSpeed" style="font-size:20px; padding-top:4px">—</div>
-        <div class="stat-sub" id="sNetwork">network not detected</div>
-      </div>
-    </div>
-
-    <!-- MAIN GRID -->
+    <!-- MAIN GRID: CONTROLS + MAP -->
     <div class="main-grid">
 
-      <!-- LEFT COLUMN: CONTROLS -->
+      <!-- LEFT: CONTROLS -->
       <div style="display:flex; flex-direction:column; gap:14px;">
 
-        <!-- NETWORK PANEL -->
+        <!-- NETWORK -->
         <div class="panel">
           <div class="panel-header">
             <div class="panel-icon">📶</div>
@@ -489,7 +342,7 @@
           </div>
         </div>
 
-        <!-- GPS PANEL -->
+        <!-- GPS -->
         <div class="panel">
           <div class="panel-header">
             <div class="panel-icon">📍</div>
@@ -518,27 +371,27 @@
             <div class="conf-track">
               <div class="conf-fill" id="confBar"></div>
             </div>
-            <div class="ctrl-group" style="margin-top:8px">
+            <div class="ctrl-group">
               <label class="ctrl-label">Distance to nearest tower</label>
               <div class="loc-item" style="text-align:center">
-                <div class="loc-item-val" id="distDisplay" style="font-size:16px">not calculated</div>
+                <div class="loc-item-val" id="distDisplay" style="font-size:15px">not calculated</div>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- CALCULATE -->
+        <!-- CALCULATE BUTTON -->
         <button class="btn btn-primary" onclick="calculate()">
           📡 Calculate Signal Strength
         </button>
 
       </div>
 
-      <!-- RIGHT COLUMN: MAP -->
+      <!-- RIGHT: MAP -->
       <div class="panel map-panel">
         <div class="panel-header">
           <div class="panel-icon">🗺️</div>
-          <div class="panel-title">Live Map</div>
+          <div class="panel-title">Live Map — Your Location & Nearest Tower</div>
         </div>
         <div class="panel-body">
           <div id="map"></div>
@@ -546,13 +399,52 @@
         <div class="map-footer">
           <span><span class="map-dot" style="background:#3b82f6"></span>Your location</span>
           <span><span class="map-dot" style="background:#ef4444"></span>Nearest tower</span>
-          <span><span class="map-dot" style="background:#38bdf8; border-radius:0; width:16px; height:3px; display:inline-block; vertical-align:middle; margin-right:5px"></span>Distance line</span>
         </div>
       </div>
 
     </div>
-  </div>
 
+    <!-- RESULT SECTION AT BOTTOM -->
+    <div class="result-section">
+      <div class="panel">
+        <div class="panel-header">
+          <div class="panel-icon">📊</div>
+          <div class="panel-title">Signal Measurement Result</div>
+        </div>
+        <div class="panel-body">
+          <div class="result-grid">
+
+            <div class="result-card" id="rCard1">
+              <div class="result-card-label">Signal Strength</div>
+              <div class="result-card-value" id="rDbm">—</div>
+              <div class="result-card-sub">dBm</div>
+              <div class="sig-bars" id="sigBars"></div>
+            </div>
+
+            <div class="result-card" id="rCard2">
+              <div class="result-card-label">Signal Quality</div>
+              <div class="result-card-value" id="rQuality" style="font-size:22px; padding-top:6px">—</div>
+              <div class="quality-badge" id="rBadge">awaiting measurement</div>
+            </div>
+
+            <div class="result-card" id="rCard3">
+              <div class="result-card-label">Distance to Tower</div>
+              <div class="result-card-value" id="rDist">—</div>
+              <div class="result-card-sub">nearest tower</div>
+            </div>
+
+            <div class="result-card" id="rCard4">
+              <div class="result-card-label">Estimated Speed</div>
+              <div class="result-card-value" id="rSpeed" style="font-size:22px; padding-top:6px">—</div>
+              <div class="result-card-sub" id="rNetwork">network not detected</div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
 
   <script>
 
@@ -561,24 +453,24 @@
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '© OpenStreetMap'
     }).addTo(map);
-    let userMark = null, towerMark = null, line = null;
+    let userMark=null, towerMark=null, line=null;
 
-    function updateMap(uLat, uLng, tLat, tLng) {
-      const uIcon = L.divIcon({ html: '<div style="width:12px;height:12px;background:#3b82f6;border:2px solid #fff;border-radius:50%"></div>', iconSize:[12,12], iconAnchor:[6,6], className:'' });
-      const tIcon = L.divIcon({ html: '<div style="width:12px;height:12px;background:#ef4444;border:2px solid #fff;border-radius:50%"></div>', iconSize:[12,12], iconAnchor:[6,6], className:'' });
-      if (userMark)  map.removeLayer(userMark);
-      if (towerMark) map.removeLayer(towerMark);
-      if (line)      map.removeLayer(line);
-      userMark  = L.marker([uLat,uLng], {icon:uIcon}).addTo(map).bindPopup('Your Location');
-      towerMark = L.marker([tLat,tLng], {icon:tIcon}).addTo(map).bindPopup('Nearest Tower');
-      line      = L.polyline([[uLat,uLng],[tLat,tLng]], {color:'#38bdf8',weight:2,dashArray:'6 4',opacity:0.7}).addTo(map);
-      map.fitBounds([[uLat,uLng],[tLat,tLng]], {padding:[50,50]});
+    function updateMap(uLat,uLng,tLat,tLng){
+      const uIcon=L.divIcon({html:'<div style="width:12px;height:12px;background:#3b82f6;border:2px solid #fff;border-radius:50%"></div>',iconSize:[12,12],iconAnchor:[6,6],className:''});
+      const tIcon=L.divIcon({html:'<div style="width:12px;height:12px;background:#ef4444;border:2px solid #fff;border-radius:50%"></div>',iconSize:[12,12],iconAnchor:[6,6],className:''});
+      if(userMark)  map.removeLayer(userMark);
+      if(towerMark) map.removeLayer(towerMark);
+      if(line)      map.removeLayer(line);
+      userMark  = L.marker([uLat,uLng],{icon:uIcon}).addTo(map).bindPopup('Your Location');
+      towerMark = L.marker([tLat,tLng],{icon:tIcon}).addTo(map).bindPopup('Nearest Tower');
+      line      = L.polyline([[uLat,uLng],[tLat,tLng]],{color:'#38bdf8',weight:2,dashArray:'6 4',opacity:0.7}).addTo(map);
+      map.fitBounds([[uLat,uLng],[tLat,tLng]],{padding:[50,50]});
     }
 
-    // SIGNAL BARS
+    // BUILD SIGNAL BARS
     (function(){
-      const row = document.getElementById('sigBars');
-      for (let i=0;i<8;i++){
+      const row=document.getElementById('sigBars');
+      for(let i=0;i<8;i++){
         const b=document.createElement('div');
         b.className='sig-bar';
         b.style.height=(8+(i/7)*18)+'px';
@@ -586,64 +478,77 @@
       }
     })();
 
-    // COLORS
+    // HELPERS
     function sigColor(dbm){
-      if(dbm>-70) return '#22c55e';
-      if(dbm>-80) return '#38bdf8';
-      if(dbm>-90) return '#f59e0b';
+      if(dbm>-70)  return '#22c55e';
+      if(dbm>-80)  return '#38bdf8';
+      if(dbm>-90)  return '#f59e0b';
       if(dbm>-100) return '#f97316';
       return '#ef4444';
     }
-
     function confColor(pct){
       if(pct>=80) return '#22c55e';
       if(pct>=55) return '#f59e0b';
       return '#ef4444';
     }
 
-    // UPDATE STATS
-    function updateStats(dbm, quality, speed, distM){
-      const col = sigColor(dbm);
-      document.getElementById('sDbm').textContent    = dbm;
-      document.getElementById('sDbm').style.color    = col;
-      document.getElementById('sQuality').textContent = quality;
-      document.getElementById('sQuality').style.color = col;
-      const badge = document.getElementById('sQBadge');
-      badge.textContent   = quality;
-      badge.style.color   = col;
-      badge.style.borderColor = col;
-      document.getElementById('sSpeed').textContent  = speed;
-      document.getElementById('sSpeed').style.color  = col;
+    // UPDATE RESULTS
+    function updateResults(dbm,quality,speed,distM){
+      const col=sigColor(dbm);
+
+      document.getElementById('rDbm').textContent    = dbm;
+      document.getElementById('rDbm').style.color    = col;
+      document.getElementById('rQuality').textContent = quality;
+      document.getElementById('rQuality').style.color = col;
+
+      const badge=document.getElementById('rBadge');
+      badge.textContent      = quality;
+      badge.style.color      = col;
+      badge.style.borderColor= col;
+
+      document.getElementById('rSpeed').textContent  = speed;
+      document.getElementById('rSpeed').style.color  = col;
+
       if(distM!==null){
-        const km = distM>=1000?(distM/1000).toFixed(2)+' km':distM+' m';
-        document.getElementById('sDist').textContent = km;
-        document.getElementById('sDist').style.color = col;
+        const km=distM>=1000?(distM/1000).toFixed(2)+' km':distM+' m';
+        document.getElementById('rDist').textContent = km;
+        document.getElementById('rDist').style.color = col;
       }
-      const pct    = Math.max(0,Math.min(1,(dbm+110)/60));
-      const filled = Math.round(pct*8);
+
+      // Color result card borders
+      ['rCard1','rCard2','rCard3','rCard4'].forEach(function(id){
+        document.getElementById(id).style.borderColor = col;
+      });
+
+      // Signal bars
+      const pct=Math.max(0,Math.min(1,(dbm+110)/60));
+      const filled=Math.round(pct*8);
       document.querySelectorAll('.sig-bar').forEach(function(b,i){
         b.style.background = i<filled ? col : 'rgba(255,255,255,0.1)';
       });
+
+      // Scroll to result smoothly
+      document.querySelector('.result-section').scrollIntoView({behavior:'smooth'});
     }
 
     // DETECT NETWORK
     function detectNetwork(){
-      const st = document.getElementById('networkStatus');
+      const st=document.getElementById('networkStatus');
       if(!navigator.connection){
         st.textContent='browser cannot detect — select manually above';
         st.style.color='var(--amber)';
         return;
       }
       const c=navigator.connection;
-      const type=c.effectiveType, dl=c.downlink, rtt=c.rtt;
+      const type=c.effectiveType,dl=c.downlink,rtt=c.rtt;
       let val='4G';
       if(type==='slow-2g'||type==='2g') val='2G';
       else if(type==='3g') val='3G';
       else if(type==='4g') val='4G';
       document.getElementById('network').value=val;
-      document.getElementById('sNetwork').textContent=val+' · '+dl+' Mbps';
-      document.getElementById('sNetwork').style.color='var(--sky)';
-      st.innerHTML='✅ '+type.toUpperCase()+' · '+dl+' Mbps · '+rtt+' ms response time';
+      document.getElementById('rNetwork').textContent=val+' · '+dl+' Mbps';
+      document.getElementById('rNetwork').style.color='var(--sky)';
+      st.innerHTML='✅ '+type.toUpperCase()+' · '+dl+' Mbps · '+rtt+' ms';
       st.style.color='var(--green)';
     }
 
@@ -675,7 +580,7 @@
             envSt.textContent='speed unavailable — select environment manually';
           } else if(spd>14){
             document.getElementById('environment').value='open';
-            envSt.textContent='✅ fast movement detected — open field selected';
+            envSt.textContent='✅ fast movement — open field selected';
             envSt.style.color='var(--green)';
           } else if(spd>3){
             document.getElementById('environment').value='suburban';
@@ -695,8 +600,8 @@
           st.style.color='var(--green)';
         },
         function(err){
-          const msgs={1:'❌ location blocked · please allow access and try again',2:'❌ location unavailable',3:'❌ request timed out · please try again'};
-          st.textContent=msgs[err.code]||'❌ unknown error';
+          const msgs={1:'❌ location blocked · please allow access',2:'❌ location unavailable',3:'❌ timed out · try again'};
+          st.textContent=msgs[err.code]||'❌ error';
           st.style.color='var(--red)';
         },
         {enableHighAccuracy:true,timeout:10000,maximumAge:0}
@@ -725,7 +630,7 @@
         st.textContent='✅ nearest tower found · '+km+' away';
         st.style.color='var(--green)';
       } catch(e){
-        st.textContent='✅ location found · enter distance manually if needed';
+        st.textContent='✅ location found · distance calculation unavailable';
       }
     }
 
@@ -744,10 +649,10 @@
           body:JSON.stringify({network:network,environment:environment,distance_m:distM,tx_power:46})
         });
         const data=await res.json();
-        updateStats(data.dbm,data.quality,data.speed,distM);
+        updateResults(data.dbm,data.quality,data.speed,distM);
       } catch(e){
-        document.getElementById('sQuality').textContent='server error';
-        document.getElementById('sQuality').style.color='var(--red)';
+        document.getElementById('rBadge').textContent='server error';
+        document.getElementById('rBadge').style.color='var(--red)';
       }
       btn.innerHTML='📡 Calculate Signal Strength';
       btn.disabled=false;
